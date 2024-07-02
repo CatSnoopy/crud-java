@@ -1,8 +1,12 @@
 package com.App.crudv.Controller;
 
+import com.App.crudv.Business.UserBusiness;
+import com.App.crudv.Dto.UserDTO;
 import com.App.crudv.Entity.User;
 import com.App.crudv.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,25 +16,29 @@ import java.util.List;
 
 @RequestMapping(path = "/user")
 @Controller
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private UserBusiness userBusiness;
 
     @GetMapping("index")
     public  String index(){
         return  "index";
     }
 
-    @GetMapping("/Usuarios")
+    @GetMapping("/usuarios")
     public List<User> getId(){
         return userService.findAll();
     }
 
-    @GetMapping ("/add")
-    public String add(@RequestBody User user){
+    @PostMapping ("/add")
+    public ResponseEntity<?> add(@RequestBody User user){
         userService.add(user);
-        return "guardar";
+        return new ResponseEntity<>("save", HttpStatus.CREATED);
     }
 
    @PutMapping("update/{id}")
@@ -45,13 +53,13 @@ public class UserController {
         updateUser.setPhone(user.getPhone());
         updateUser.setOccupation(user.getOccupation());
         userService.update(updateUser);
-        return "Editado";
+        return "Edit";
     }
     @DeleteMapping("delete/{id}")
     public String delete(@PathVariable Long id){
         User deleteUser = userService.findById(id);
         userService.delete(deleteUser);
-        return "Eliminado";
+        return "delete";
     }
 }
 

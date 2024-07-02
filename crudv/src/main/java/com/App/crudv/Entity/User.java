@@ -1,5 +1,5 @@
 package com.App.crudv.Entity;
-
+import com.App.crudv.Dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
+
     private String documents;
     private String user_name;
 
