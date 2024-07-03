@@ -1,85 +1,103 @@
-package com.example.demo.service;
+package com.example.demo.dto;
 
-import com.example.demo.dto.PersonaDTO;
-import com.example.demo.model.Persona;
-import com.example.demo.repository.PersonaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Date;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+public class PersonaDTO {
 
-@Service
-public class PersonaService {
+    private Long id;
+    private String numeroDocumento;
+    private String nombre;
+    private String apellido;
+    private Date fechaNacimiento;
+    private String ciudad;
+    private String correo;
+    private String telefono;
+    private String ocupacion;
 
-    @Autowired
-    private PersonaRepository personaRepository;
-
-    public List<PersonaDTO> getAllPersonas() {
-        List<Persona> personas = personaRepository.findAll();
-        return personas.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    // Constructores, getters y setters
+    public PersonaDTO() {
     }
 
-    public Optional<PersonaDTO> getPersonaById(Long id) {
-        Optional<Persona> personaOptional = personaRepository.findById(id);
-        return personaOptional.map(this::convertToDTO);
+    public PersonaDTO(String numeroDocumento, String nombre, String apellido, Date fechaNacimiento, String ciudad, String correo, String telefono, String ocupacion) {
+        this.numeroDocumento = numeroDocumento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.ocupacion = ocupacion;
     }
 
-    public PersonaDTO savePersona(PersonaDTO personaDTO) {
-        Persona persona = convertToEntity(personaDTO);
-        Persona savedPersona = personaRepository.save(persona);
-        return convertToDTO(savedPersona);
+    public Long getId() {
+        return id;
     }
 
-    public PersonaDTO updatePersona(Long id, PersonaDTO personaDTO) {
-        Optional<Persona> personaOptional = personaRepository.findById(id);
-        if (personaOptional.isPresent()) {
-            Persona personaToUpdate = personaOptional.get();
-            personaToUpdate.setNumeroDocumento(personaDTO.getNumeroDocumento());
-            personaToUpdate.setNombre(personaDTO.getNombre());
-            personaToUpdate.setApellido(personaDTO.getApellido());
-            personaToUpdate.setFechaNacimiento(personaDTO.getFechaNacimiento());
-            personaToUpdate.setCiudad(personaDTO.getCiudad());
-            personaToUpdate.setCorreo(personaDTO.getCorreo());
-            personaToUpdate.setTelefono(personaDTO.getTelefono());
-            personaToUpdate.setOcupacion(personaDTO.getOcupacion());
-            Persona updatedPersona = personaRepository.save(personaToUpdate);
-            return convertToDTO(updatedPersona);
-        }
-        return null;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void deletePersona(Long id) {
-        personaRepository.deleteById(id);
+    public String getNumeroDocumento() {
+        return numeroDocumento;
     }
 
-    // Métodos de conversión entre Entity y DTO
-    private PersonaDTO convertToDTO(Persona persona) {
-        return new PersonaDTO(
-                persona.getNumeroDocumento(),
-                persona.getNombre(),
-                persona.getApellido(),
-                persona.getFechaNacimiento(),
-                persona.getCiudad(),
-                persona.getCorreo(),
-                persona.getTelefono(),
-                persona.getOcupacion()
-        );
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
     }
 
-    private Persona convertToEntity(PersonaDTO personaDTO) {
-        return new Persona(
-                personaDTO.getNumeroDocumento(),
-                personaDTO.getNombre(),
-                personaDTO.getApellido(),
-                personaDTO.getFechaNacimiento(),
-                personaDTO.getCiudad(),
-                personaDTO.getCorreo(),
-                personaDTO.getTelefono(),
-                personaDTO.getOcupacion()
-        );
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
     }
 }
